@@ -86,8 +86,7 @@ def upload_avatar_path(instance, filename):
     ext = filename.split('.')[-1]
 
     #　avatarsフォルダの直下にUserモデルに紐づいたProfileインスタンスのid　＋　ProfileインスタンスのnickNameを繋げたファイルを作成する。
-    return '/'.join(['avatars', str(instance.userId.id) + str(instance.nickName) + str(".") + str(ext)])
-
+    return '/'.join(['avatars', str(instance.userProfile.id) + str(instance.nickName) + str(".") + str(ext)])
 
 
 class Profile(models.Model):
@@ -95,15 +94,16 @@ class Profile(models.Model):
 
     # DjangoのUserモデルとOne to Oneで結びつけており、
     # Userが削除されたらProfileも削除されるように設定している（on_delete）
-    userId = models.OneToOneField(
-        settings.AUTH_USER_MODEL, related_name='userId', on_delete=models.CASCADE
+    # どのユーザーのプロフィールなのか
+    userProfile = models.OneToOneField(
+        settings.AUTH_USER_MODEL, related_name='userProfile', on_delete=models.CASCADE
     )
 
     #　Avatarを保存する（ただしblank,nullを許容して画像は任意とする）
     avatar = models.ImageField(blank=True, null=True, upload_to=upload_avatar_path)
 
     # Userインスタンスが作られた時に自動でその時の日時を入れてくれる
-    createdAt = models.DateTiemField(auto_now_add=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nickName
@@ -115,18 +115,21 @@ class Profile(models.Model):
 
 def upload_review_path(instance, filename):
     ext = filename.split('.')[-1]
-    return '/'.join(['reviews', str(instance.userId.id) + str(instance.title) + str(".") + str(ext)])
+    return '/'.join(['reviews', str(instance.userReview.id) + str(instance.title) + str(".") + str(ext)])
+
 
 class Review(models.Model):
     title = models.CharField(max_length=100)
     bookName = models.CharField(max_length=100)
     content = models.TextField(max_length=1000)
-    userId = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='userId', on_delete=models.CASCADE
+    # どのUserのレビューなのか
+    userReview = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='userReview', on_delete=models.CASCADE
     )
     img = models.ImageField(blank=True, null=True, upload_to=upload_review_path)
-    likedUserId = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='likedUserId', blank=True)
+    # どのUserがlikeしているか
+    likedUser = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='likedUser', blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -139,11 +142,13 @@ class Review(models.Model):
 
 class Comment(models.Model):
     text = models.CharField(max_length=100)
-    userId = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='userId',
+    # どのUserがコメントしているか
+    userComment = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='userComment',
         on_delete=models.CASCADE
     )
-    postId = models.ForeignKey(Review, on_delete=models.CASCADE)
+    # どのレビューにコメントしているか
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
