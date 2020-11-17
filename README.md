@@ -49,6 +49,8 @@ DBとのやりとり
 
 modelで定義してadminで登録処理を記載したらターミナルに移り
 
+(models.py,記載後makemigrations/migrateができ、admin.py記載後superuserの作成ができる)
+
     1:マイグレーションファイルを作る（仮想的に）
         python manage.py makemigrations
     
