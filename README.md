@@ -94,3 +94,22 @@ Gitに関して（メモ用として必要最低限のものだけを記載）
     どんなブランチがあり自分がどのブランチにいるかの確認をする
     git branch
     
+    
+データベースをもう一度立て直したい時
+
+    https://qiita.com/riz666/items/59352c336398e0321fc2
+    appの部分は各自のアプリ名に変える事
+    
+    cd api
+    rm -d -r migrations/
+    
+    cd ..
+    rm -d -r db.sqlite3
+    
+    python manage.py makemigrations api
+    
+    python manage.py migrate
+    
+    python manage.py createsuperuser
+
+    

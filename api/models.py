@@ -103,7 +103,7 @@ class Profile(models.Model):
     avatar = models.ImageField(blank=True, null=True, upload_to=upload_avatar_path)
 
     # Userインスタンスが作られた時に自動でその時の日時を入れてくれる
-    createdAt = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nickName
@@ -130,7 +130,7 @@ class Review(models.Model):
     # どのUserがlikeしているか
     likedUser = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='likedUser', blank=True)
-    createdAt = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title

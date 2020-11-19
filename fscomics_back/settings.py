@@ -90,7 +90,7 @@ REST_FRAMEWORK = {
 
 # JWTの定義（サードパーティのModuleを使用）
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES' : ('JWT',),
+    'AUTH_HEADER_TYPES': ('JWT',),
     # 認証する時間を定義しており今回だと120分経つと認証に必要なTokenが使えなくなる
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
 }
