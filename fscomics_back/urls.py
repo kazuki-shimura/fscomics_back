@@ -11,3 +11,14 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+"""
+path('api/', include('api.urls')),
+これでapiアプリへつなぐ為の記載
+
+path('authen/', include('djoser.urls.jwt')),
+これでJWTを取得するパス
+"""
+
+
