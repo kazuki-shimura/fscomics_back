@@ -48,3 +48,40 @@ class CommentSerializer(serializers.ModelSerializer):
         extra_kwargs = {'userComment': {'read_only': True}}
 
 
+
+
+"""
+シリアライザーの概念
+    クライアント側のjson形式のデータとDBのModelオブジェクトを相互に変換する際に使用される
+    ( json  ←←←  serializer  →→→  ModelObject )
+    その際に属性を付与してあげるとセキュリティ性が上がる（例えばread_onlyにしてあげると書き換えはできなくなり、データ参照だけが可能になるとか）
+    
+    クライアントからデータを受け取る際にmodels.pyに指定した、最大文字数(max_length)や値の重複を許さない(unique)などのバリデーションをかけ
+    バリデーションが通ったデータをvalidated_dataという辞書型のデータに入れてDBへ渡す（バリデーションがかからない時は空のデータとなる）
+    models.pyに blank=True, null=True 等の記載がない場合、値が渡されないとエラーが出る
+    
+
+シリアライザーの記述の仕方
+    
+    基本的にはmodels.pyで作成したmodelごとに作成していく事が多い。（例外はもちろんあり）
+    
+    class Meta:　　オプションを書く場所
+        modelの横にserializerの元になるモデルを定義する
+            get_user_modelはDjangoの標準の関数で現在アクティブなuserを取ってくる
+        feildは取り扱いたいパラメータの一覧を記載する
+        extra_kwargsのところに属性（read_onlyなど）を記載する
+        
+    def create(self, validated_data):　受け取った値が問題なければvalidated_dataに辞書型で入ってくる
+        user = get_user_model().objects.create_user(**validated_data)
+        シリアライザーに定義したモデルのcreate_userメソッドを使用して引数として渡されたvalidated_dataを使いデータをDBに保存する
+        objectsはUserManagerをオーバーライドしたメソッドでUserManagerで定義されているメソッドを使用できる
+    
+    
+    
+    extra_kwargs = {'userProfile': {'read_only': True}}
+    extra_kwargs = {'userReview': {'read_only': True}}
+    extra_kwargs = {'userComment': {'read_only': True}}
+    これらはViews.pyでログインしているユーザーを自動で割り当てる為に使用する
+    投稿するのにユーザーが動作をするのかを認識するのにユーザー名、emailなどを入れる手間を省く為
+
+"""

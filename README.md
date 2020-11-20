@@ -113,3 +113,12 @@ Gitに関して（メモ用として必要最低限のものだけを記載）
     python manage.py createsuperuser
 
     
+
+
+備考
+
+    ここのSerializerはフロントからの値を受け取り精査する場所
+    今回ReviewSerializerにbookName,contentを追加しているのでReact側から値を渡す時に注意が必要
+    
+    Why??　　adminで作成したuserがReact側で表示されない理由
+    userを作っただけでProfileを作成していないから、Profile情報がないよと拒否されてしまう
