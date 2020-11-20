@@ -49,7 +49,7 @@ MIDDLEWARE = [
 
 # corsを使用する際にReactからきたアクセスを許可するため定義
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000"
+    "https://fs-comics.web.app"
 ]
 
 
