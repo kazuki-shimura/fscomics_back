@@ -61,13 +61,13 @@ MIDDLEWARE = [
 
 # corsを使用する際にReactからきたアクセスを許可するため定義
 # firebaseデプロイ環境
-CORS_ORIGIN_WHITELIST = [
-    "https://fs-comics.web.app"
-]
-# ローカル開発環境
 # CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:3000"
+#     "https://fs-comics.web.app"
 # ]
+# ローカル開発環境
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000"
+]
 
 
 
