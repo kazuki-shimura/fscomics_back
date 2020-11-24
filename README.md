@@ -122,3 +122,12 @@ Gitに関して（メモ用として必要最低限のものだけを記載）
     
     Why??　　adminで作成したuserがReact側で表示されない理由
     userを作っただけでProfileを作成していないから、Profile情報がないよと拒否されてしまう
+    
+    
+
+AWS接続にあたり
+
+    環境変数、データベースの設定を簡単に扱えるようにする為のモジュール
+    pip install django-environ
+    pip install dj-database-url
+    

@@ -3,14 +3,26 @@ import os
 # JWTを認証で使う際にTokenの認証期限設定できるモジュール
 from datetime import timedelta
 
+# 環境変数を扱う為のモジュール ○○○
+import environ
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# 環境変数（.env）ファイルを使用する為の追記 ○○○
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q@c%ie0^1yl-5y@h4-)dy1m(+rt3n15)kpx9q_$q6o9gkssst_'
+# SECRET_KEY = 'q@c%ie0^1yl-5y@h4-)dy1m(+rt3n15)kpx9q_$q6o9gkssst_'
+# ○○○
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+# ○○○
+DEBUG = env('DEBGU')
 
 ALLOWED_HOSTS = []
 
@@ -48,9 +60,14 @@ MIDDLEWARE = [
 ]
 
 # corsを使用する際にReactからきたアクセスを許可するため定義
+# firebaseデプロイ環境
 CORS_ORIGIN_WHITELIST = [
     "https://fs-comics.web.app"
 ]
+# ローカル開発環境
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:3000"
+# ]
 
 
 
@@ -101,11 +118,16 @@ SIMPLE_JWT = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# ○○○
+DATABASE = {
+    'default': env.db(),
 }
 
 
@@ -144,6 +166,7 @@ USE_TZ = True
 AUTH_USER_MODEL = 'api.User'
 
 
+# staticフォルダの設定
 STATIC_URL = '/static/'
 
 
@@ -154,3 +177,9 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
+
+# AWSに接続する際に必要な設定
+# adminダッシュボードは静的なstaticファイルの塊であり今回ダッシュボードを使用する為に
+# staticというフォルダにまとめておくと言う設定が必要になる為記述
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
