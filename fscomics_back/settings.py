@@ -126,9 +126,10 @@ SIMPLE_JWT = {
 # }
 
 # ○○○
-DATABASE = {
-    'default': env.db(),
+DATABASES = {
+    'default': env.db()
 }
+
 
 
 # Passwordのバリデーション validation
